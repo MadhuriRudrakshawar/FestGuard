@@ -325,7 +325,8 @@ body {
     border: 1px solid var(--border);
     border-left: 3px solid var(--green);
     border-radius: var(--radius);
-    padding: 1rem;
+    padding: 1.6rem 1rem 1rem;
+    position: relative;
     transition: border-color 0.2s, transform 0.2s;
 }
 
@@ -334,10 +335,14 @@ body {
     transform: translateY(-2px);
 }
 
+.area-card-header {
+    margin-bottom: 4px;
+}
+
 .area-card-name {
     font-weight: 600;
-    margin-bottom: 4px;
     color: var(--text);
+    line-height: 1.25;
 }
 
 .area-card-desc {
@@ -489,6 +494,29 @@ select.form-input option { background: #1a1a1a; }
 .btn-refresh:hover {
     border-color: var(--green);
     color: var(--green);
+}
+
+.btn-icon-danger {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.btn-icon-danger:hover {
+    background: var(--red-dim);
+    border-color: var(--red);
+    color: var(--red);
 }
 
 /* Loading / Empty */

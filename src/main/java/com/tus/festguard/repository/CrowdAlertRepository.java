@@ -13,4 +13,6 @@ public interface CrowdAlertRepository extends JpaRepository<CrowdAlert, Long> {
     long countByStatus(AlertStatus status);
 
     boolean existsByAreaIdAndStatus(Long areaId, AlertStatus status);
+
+    void deleteByAreaId(Long areaId);
 }

@@ -4,14 +4,16 @@ public class DashboardSummaryDTO {
     private long totalAreas;
     private long totalReports;
     private long activeAlerts;
+    private long fullAreas;
 
     public DashboardSummaryDTO() {
     }
 
-    public DashboardSummaryDTO(long totalAreas, long totalReports, long activeAlerts) {
+    public DashboardSummaryDTO(long totalAreas, long totalReports, long activeAlerts, long fullAreas) {
         this.totalAreas = totalAreas;
         this.totalReports = totalReports;
         this.activeAlerts = activeAlerts;
+        this.fullAreas = fullAreas;
     }
 
     public long getTotalAreas() {
@@ -36,5 +38,13 @@ public class DashboardSummaryDTO {
 
     public void setActiveAlerts(long activeAlerts) {
         this.activeAlerts = activeAlerts;
+    }
+
+    public long getFullAreas() {
+        return fullAreas;
+    }
+
+    public void setFullAreas(long fullAreas) {
+        this.fullAreas = fullAreas;
     }
 }

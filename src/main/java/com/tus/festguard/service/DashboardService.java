@@ -2,6 +2,7 @@ package com.tus.festguard.service;
 
 import com.tus.festguard.dto.DashboardSummaryDTO;
 import com.tus.festguard.enums.AlertStatus;
+import com.tus.festguard.enums.CrowdLevel;
 import com.tus.festguard.repository.CrowdAlertRepository;
 import com.tus.festguard.repository.CrowdReportRepository;
 import com.tus.festguard.repository.FestivalAreaRepository;
@@ -20,7 +21,8 @@ public class DashboardService {
         return new DashboardSummaryDTO(
                 festivalAreaRepository.count(),
                 crowdReportRepository.count(),
-                crowdAlertRepository.countByStatus(AlertStatus.ACTIVE)
+                crowdAlertRepository.countByStatus(AlertStatus.ACTIVE),
+                crowdReportRepository.countDistinctAreasByCrowdLevel(CrowdLevel.FULL)
         );
     }
 }
