@@ -263,33 +263,29 @@ function loadReports() {
 
 function setReportsLoading(isLoading) {
     if (isLoading) {
-        $("#reportsLoading, #dashReportsLoading").removeClass("d-none");
-        $("#reportsTable, #dashReportsTable").addClass("d-none");
-        $("#reportsEmpty, #dashReportsEmpty").addClass("d-none");
+        $("#reportsLoading").removeClass("d-none");
+        $("#reportsTable").addClass("d-none");
+        $("#reportsEmpty").addClass("d-none");
     } else {
-        $("#reportsLoading, #dashReportsLoading").addClass("d-none");
+        $("#reportsLoading").addClass("d-none");
     }
 }
 
 function renderReports(reports) {
     const reportsBody = $("#reportsBody");
-    const dashReportsBody = $("#dashReportsBody");
 
     reportsBody.empty();
-    dashReportsBody.empty();
 
     if (!reports || reports.length === 0) {
-        $("#reportsEmpty, #dashReportsEmpty").removeClass("d-none");
+        $("#reportsEmpty").removeClass("d-none");
         return;
     }
 
     reports.slice(0, 10).forEach(function (report) {
-        const row = reportRow(report);
-        reportsBody.append(row);
-        dashReportsBody.append(row);
+        reportsBody.append(reportRow(report));
     });
 
-    $("#reportsTable, #dashReportsTable").removeClass("d-none");
+    $("#reportsTable").removeClass("d-none");
 }
 
 function reportRow(report) {
@@ -406,19 +402,80 @@ function updateAlertBadge(alerts) {
     }
 }
 
+let crowdLevelChart = null;
+let reportsPerAreaChart = null;
+
 function loadDashboard() {
-    $.ajax({
-        url: API.dashboard,
-        method: "GET",
-        success: function (summary) {
-            $("#m-areas").text(summary.totalAreas ?? 0);
-            $("#m-reports").text(summary.totalReports ?? 0);
-            $("#m-alerts").text(summary.activeAlerts ?? 0);
-            $("#m-full").text(summary.fullAreas ?? 0);
+    $.when(
+        $.get(API.dashboard),
+        $.get(API.reports)
+    ).done(function (summaryRes, reportsRes) {
+        const summary = summaryRes[0];
+        const reports = reportsRes[0] || [];
+
+        $("#m-areas").text(summary.totalAreas ?? 0);
+        $("#m-reports").text(summary.totalReports ?? 0);
+        $("#m-alerts").text(summary.activeAlerts ?? 0);
+
+        renderCrowdLevelChart(reports);
+        renderReportsPerAreaChart(reports);
+    }).fail(function () {
+        loadDashboardFallback();
+    });
+}
+
+function renderCrowdLevelChart(reports) {
+    const counts = { LOW: 0, MEDIUM: 0, FULL: 0 };
+    reports.forEach(function (r) { counts[r.crowdLevel]++; });
+
+    if (crowdLevelChart) crowdLevelChart.destroy();
+    crowdLevelChart = new Chart(document.getElementById("crowdLevelChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["Low", "Medium", "Full"],
+            datasets: [{
+                data: [counts.LOW, counts.MEDIUM, counts.FULL],
+                backgroundColor: ["#74A8A4", "#7F543D", "#b96b5b"],
+                borderWidth: 0
+            }]
         },
-        error: function () {
-            // fallback if /api/dashboard/summary is not ready yet
-            loadDashboardFallback();
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "bottom", labels: { font: { size: 12 } } } },
+            cutout: "65%"
+        }
+    });
+}
+
+function renderReportsPerAreaChart(reports) {
+    const counts = {};
+    reports.forEach(function (r) {
+        const name = r.area ? r.area.name : "Unknown";
+        counts[name] = (counts[name] || 0) + 1;
+    });
+
+    if (reportsPerAreaChart) reportsPerAreaChart.destroy();
+    reportsPerAreaChart = new Chart(document.getElementById("reportsPerAreaChart"), {
+        type: "bar",
+        data: {
+            labels: Object.keys(counts),
+            datasets: [{
+                label: "Reports",
+                data: Object.values(counts),
+                backgroundColor: "#74A8A4",
+                borderRadius: 6,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: "#DBE2DC" } },
+                x: { grid: { display: false } }
+            }
         }
     });
 }
