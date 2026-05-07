@@ -1,8 +1,10 @@
 const API = {
-    dashboard: "/api/dashboard",
-    areas: "/api/areas",
-    reports: "/api/reports",
-    alerts: "/api/alerts"
+    dashboard: "/api/dashboard/summary",
+    areas: "/api/festival-areas",
+    reportsRecent: "/api/crowd-reports/recent",
+    reportsSubmit: "/api/crowd-reports/area",
+    alerts: "/api/crowd-alerts/active",
+    alertsResolve: "/api/crowd-alerts"
 };
 
 $(document).ready(function () {
@@ -194,10 +196,10 @@ function submitReport() {
     $("#reportSubmitBtn").prop("disabled", true).text("Submitting...");
 
     $.ajax({
-        url: API.reports,
+        url: `${API.reportsSubmit}/${report.areaId}`,
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify(report),
+        data: JSON.stringify({ crowdLevel: report.crowdLevel, note: report.note }),
         success: function () {
             showSuccess("Crowd report submitted.");
             $("#reportForm")[0].reset();
@@ -218,7 +220,7 @@ function loadReports() {
     setReportsLoading(true);
 
     $.ajax({
-        url: API.reports,
+        url: API.reportsRecent,
         method: "GET",
         success: function (reports) {
             renderReports(reports);
@@ -264,14 +266,10 @@ function renderReports(reports) {
 }
 
 function reportRow(report) {
-    const areaName =
-        report.areaName ||
-        report.festivalAreaName ||
-        (report.area ? report.area.name : "Unknown Area");
-
-    const level = report.crowdLevel || report.level || "UNKNOWN";
+    const areaName = report.area ? report.area.name : "Unknown Area";
+    const level = report.crowdLevel || "UNKNOWN";
     const note = report.note || "";
-    const time = formatTime(report.timeSubmitted || report.submittedAt || report.createdAt);
+    const time = formatTime(report.submittedAt);
 
     return `
         <tr>
@@ -327,13 +325,9 @@ function renderAlerts(alerts) {
 }
 
 function alertCard(alert) {
-    const areaName =
-        alert.areaName ||
-        alert.festivalAreaName ||
-        (alert.area ? alert.area.name : "Unknown Area");
-
-    const message = alert.alertMessage || alert.message || "Area is full.";
-    const time = formatTime(alert.timeCreated || alert.createdAt);
+    const areaName = alert.area ? alert.area.name : "Unknown Area";
+    const message = alert.message || "Area is full.";
+    const time = formatTime(alert.createdAt);
 
     return `
         <div class="alert-card alert-full">
@@ -354,8 +348,8 @@ function alertCard(alert) {
 
 function resolveAlert(id) {
     $.ajax({
-        url: `${API.alerts}/${id}/resolve`,
-        method: "PUT",
+        url: `${API.alertsResolve}/${id}/resolve`,
+        method: "PATCH",
         success: function () {
             showSuccess("Alert resolved.");
             loadAlerts();
@@ -385,7 +379,6 @@ function loadDashboard() {
             $("#m-areas").text(summary.totalAreas ?? 0);
             $("#m-reports").text(summary.totalReports ?? 0);
             $("#m-alerts").text(summary.activeAlerts ?? 0);
-            $("#m-full").text(summary.fullAreas ?? 0);
         },
         error: function () {
             // fallback if /api/dashboard is not ready yet
@@ -397,25 +390,16 @@ function loadDashboard() {
 function loadDashboardFallback() {
     $.when(
         $.get(API.areas),
-        $.get(API.reports),
+        $.get(API.reportsRecent),
         $.get(API.alerts)
     ).done(function (areasRes, reportsRes, alertsRes) {
         const areas = areasRes[0] || [];
         const reports = reportsRes[0] || [];
         const alerts = alertsRes[0] || [];
 
-        const fullAreas = new Set();
-
-        reports.forEach(function (r) {
-            if ((r.crowdLevel || r.level) === "FULL") {
-                fullAreas.add(r.areaId || r.festivalAreaId || (r.area ? r.area.id : ""));
-            }
-        });
-
         $("#m-areas").text(areas.length);
         $("#m-reports").text(reports.length);
         $("#m-alerts").text(alerts.length);
-        $("#m-full").text(fullAreas.size);
     });
 }
 
