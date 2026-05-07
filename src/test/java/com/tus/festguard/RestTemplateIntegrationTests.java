@@ -1,6 +1,7 @@
 package com.tus.festguard;
 
 import com.tus.festguard.enums.CrowdLevel;
+import com.tus.festguard.dto.DashboardSummaryDTO;
 import com.tus.festguard.model.CrowdAlert;
 import com.tus.festguard.model.CrowdReport;
 import com.tus.festguard.model.FestivalArea;
@@ -110,6 +111,50 @@ class RestTemplateIntegrationTests {
     }
 
     @Test
+    void submitFullReport_updatesAlertsAndDashboardSummary() {
+        FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Main Stage", "Primary stage", "STAGE"));
+
+        CrowdReport request = new CrowdReport();
+        request.setCrowdLevel(CrowdLevel.FULL);
+        request.setNote("At capacity");
+        restTemplate.postForEntity(url("/api/crowd-reports/area/" + area.getId()), request, CrowdReport.class);
+
+        ResponseEntity<CrowdAlert[]> alertsResponse = restTemplate.getForEntity(
+                url("/api/crowd-alerts/active"), CrowdAlert[].class);
+        ResponseEntity<DashboardSummaryDTO> summaryResponse = restTemplate.getForEntity(
+                url("/api/dashboard/summary"), DashboardSummaryDTO.class);
+
+        assertThat(alertsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(alertsResponse.getBody()).hasSize(1);
+        assertThat(summaryResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(summaryResponse.getBody()).isNotNull();
+        assertThat(summaryResponse.getBody().getActiveAlerts()).isEqualTo(1);
+        assertThat(summaryResponse.getBody().getFullAreas()).isEqualTo(1);
+    }
+
+    @Test
+    void eachFullReport_createsAlertCardEvenForSameArea() {
+        FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Main Stage", "Primary stage", "STAGE"));
+
+        CrowdReport firstRequest = new CrowdReport();
+        firstRequest.setCrowdLevel(CrowdLevel.FULL);
+        firstRequest.setNote("Front barrier is full");
+
+        CrowdReport secondRequest = new CrowdReport();
+        secondRequest.setCrowdLevel(CrowdLevel.FULL);
+        secondRequest.setNote("Side entrance is full too");
+
+        restTemplate.postForEntity(url("/api/crowd-reports/area/" + area.getId()), firstRequest, CrowdReport.class);
+        restTemplate.postForEntity(url("/api/crowd-reports/area/" + area.getId()), secondRequest, CrowdReport.class);
+
+        ResponseEntity<CrowdAlert[]> response = restTemplate.getForEntity(
+                url("/api/crowd-alerts/active"), CrowdAlert[].class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).hasSize(2);
+    }
+
+    @Test
     void resolveAlert_returns200AndResolvedStatus() {
         FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Craft Beer Bar", "Bar area", "BAR"));
 
@@ -131,5 +176,19 @@ class RestTemplateIntegrationTests {
 
         CrowdAlert[] remaining = restTemplate.getForObject(url("/api/crowd-alerts/active"), CrowdAlert[].class);
         assertThat(remaining).isEmpty();
+    }
+
+    @Test
+    void deleteFestivalArea_returns204AndRemovesArea() {
+        FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Family Zone", "Quiet area", "FAMILY"));
+
+        ResponseEntity<Void> response = restTemplate.exchange(
+                url("/api/festival-areas/" + area.getId()),
+                org.springframework.http.HttpMethod.DELETE,
+                null,
+                Void.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(festivalAreaRepository.existsById(area.getId())).isFalse();
     }
 }

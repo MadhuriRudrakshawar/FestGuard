@@ -32,8 +32,7 @@ public class CrowdReportService {
         report.setSubmittedAt(LocalDateTime.now());
         CrowdReport saved = crowdReportRepository.save(report);
 
-        if (CrowdLevel.FULL.equals(report.getCrowdLevel())
-                && !crowdAlertRepository.existsByAreaIdAndStatus(areaId, AlertStatus.ACTIVE)) {
+        if (CrowdLevel.FULL.equals(report.getCrowdLevel())) {
             CrowdAlert alert = new CrowdAlert();
             alert.setArea(area);
             alert.setMessage("Area '" + area.getName() + "' is FULL");

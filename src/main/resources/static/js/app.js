@@ -1,6 +1,9 @@
 const API = {
     dashboard: "/api/dashboard/summary",
     areas: "/api/festival-areas",
+    area: function (areaId) {
+        return `/api/festival-areas/${areaId}`;
+    },
     reports: "/api/crowd-reports/recent",
     reportForArea: function (areaId) {
         return `/api/crowd-reports/area/${areaId}`;
@@ -155,7 +158,12 @@ function renderAreas(areas) {
     areas.forEach(function (area) {
         grid.append(`
             <div class="area-card">
-                <div class="area-card-name">${escapeHtml(area.name)}</div>
+                <div class="area-card-header">
+                    <div class="area-card-name">${escapeHtml(area.name)}</div>
+                    <button class="btn-icon-danger" type="button" title="Delete area" onclick="deleteArea(${area.id})">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
                 <div class="area-card-desc">${escapeHtml(area.description || area.location || "")}</div>
                 <span class="type-badge">${escapeHtml(area.areaType || area.type || "OTHER")}</span>
             </div>
@@ -163,6 +171,27 @@ function renderAreas(areas) {
     });
 
     grid.removeClass("d-none");
+}
+
+function deleteArea(id) {
+    if (!confirm("Delete this festival area and its reports/alerts?")) {
+        return;
+    }
+
+    $.ajax({
+        url: API.area(id),
+        method: "DELETE",
+        success: function () {
+            showSuccess("Festival area deleted.");
+            loadAreas();
+            loadReports();
+            loadAlerts();
+            loadDashboard();
+        },
+        error: function (xhr) {
+            showError(getErrorMessage(xhr, "Could not delete area."));
+        }
+    });
 }
 
 function populateAreaDropdown(areas) {
