@@ -60,8 +60,9 @@ class DashboardSeleniumTest {
         // Submit via JS click
         js.executeScript("arguments[0].click();", driver.findElement(By.id("reportSubmitBtn")));
 
-        // Wait for the recent reports table to show the new entry
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("reportsTable")));
+        // Wait for the submitted note to appear in the reports table
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(
+                By.id("reportsBody"), "Selenium test report"));
 
         String tableText = driver.findElement(By.id("reportsBody")).getText();
         assertThat(tableText).contains("Selenium test report");

@@ -52,6 +52,20 @@
 
         <!-- DASHBOARD -->
         <section id="section-dashboard" class="page-section active">
+
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-left">
+                    <div class="hero-title"><i class="bi bi-music-note-beamed"></i> Festival Pulse</div>
+                    <div class="hero-sub">Live crowd monitoring — real-time area status</div>
+                </div>
+                <div class="hero-right">
+                    <span class="hero-live"><span class="live-dot"></span> Live</span>
+                    <span class="hero-date" id="heroDate"></span>
+                </div>
+            </div>
+
+            <!-- Metric Cards -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-icon green"><i class="bi bi-geo-alt-fill"></i></div>
@@ -74,44 +88,28 @@
                         <div class="metric-value" id="m-alerts">—</div>
                     </div>
                 </div>
-
             </div>
 
-<!-- Charts Row -->
-            <div class="row g-4 mt-2">
-                <div class="col-lg-5">
-                    <div class="panel">
+            <!-- Charts Row -->
+            <div class="row g-4 mt-3">
+                <div class="col-lg-4">
+                    <div class="panel h-100">
                         <div class="panel-header"><i class="bi bi-pie-chart-fill"></i> Crowd Level Distribution</div>
-                        <div class="panel-body" style="display:flex;justify-content:center;align-items:center;height:240px">
+                        <div class="panel-body" style="display:flex;justify-content:center;align-items:center;height:380px">
                             <canvas id="crowdLevelChart"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7">
-                    <div class="panel">
+                <div class="col-lg-8">
+                    <div class="panel h-100">
                         <div class="panel-header"><i class="bi bi-bar-chart-fill"></i> Reports per Area</div>
-                        <div class="panel-body" style="height:240px">
+                        <div class="panel-body" style="height:380px">
                             <canvas id="reportsPerAreaChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Active Alerts Summary -->
-            <div class="panel mt-4">
-                <div class="panel-header">
-                    <i class="bi bi-bell-fill"></i> Active Alerts
-                </div>
-                <div class="panel-body">
-                    <div id="dashAlertsLoading" class="loading-state">
-                        <div class="spinner-border spinner-border-sm text-success"></div> Loading...
-                    </div>
-                    <div id="dashAlertsEmpty" class="empty-state d-none">
-                        <i class="bi bi-check-circle-fill text-success"></i> All clear — no active alerts.
-                    </div>
-                    <div id="dashAlertsList" class="alerts-grid d-none"></div>
-                </div>
-            </div>
         </section>
 
         <!-- FESTIVAL AREAS -->
