@@ -41,7 +41,7 @@ class DashboardSeleniumTest {
 
     @Test
     void submitCrowdReport_appearsInRecentReportsTable() {
-        driver.get(BASE_URL + "/index.html");
+        driver.get(BASE_URL + "/dashboard.html");
 
         // Click the Crowd Reports nav link via JS to avoid visibility/clickability issues
         WebElement reportsNav = wait.until(ExpectedConditions.presenceOfElementLocated(
