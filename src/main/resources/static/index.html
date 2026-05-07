@@ -1,269 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Festival Pulse — Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/style.css?v=3" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Festival Pulse</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/landing.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="app-wrapper">
+<section class="landing-page">
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-            <i class="bi bi-music-note-beamed"></i>
-            <span>Festival<br><strong>Pulse</strong></span>
+  <!-- NAVBAR -->
+  <nav class="landing-navbar">
+    <div class="brand">
+      <i class="bi bi-music-note-beamed"></i>
+      <span>Festival <strong>Pulse</strong></span>
+    </div>
+
+    <a href="dashboard.html" class="btn-dashboard">
+      Open Dashboard
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-section container">
+
+    <div class="hero-text">
+
+      <div class="hero-badge">
+        LIVE CROWD MONITORING
+      </div>
+
+      <h1>
+        Real-time crowd awareness for safer festival operations
+      </h1>
+
+      <p>
+        Festival Pulse helps stewards monitor busy festival areas,
+        submit live crowd reports, and notify organisers instantly
+        when spaces become overcrowded.
+      </p>
+
+      <div class="hero-actions">
+        <a href="dashboard.html" class="btn-primary-custom">
+          <i class="bi bi-speedometer2"></i>
+          Open Dashboard
+        </a>
+      </div>
+
+      <!-- FEATURES -->
+      <div class="feature-grid">
+
+        <div class="feature-card">
+          <i class="bi bi-geo-alt-fill"></i>
+          <h5>Festival Areas</h5>
+          <p>Track important festival zones and locations.</p>
         </div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-link active" data-section="dashboard">
-                <i class="bi bi-speedometer2"></i> Dashboard
-            </a>
-            <a href="#" class="nav-link" data-section="areas">
-                <i class="bi bi-geo-alt-fill"></i> Festival Areas
-            </a>
-            <a href="#" class="nav-link" data-section="reports">
-                <i class="bi bi-file-earmark-text-fill"></i> Crowd Reports
-            </a>
-            <a href="#" class="nav-link" data-section="alerts">
-                <i class="bi bi-exclamation-triangle-fill"></i> Alerts
-                <span class="badge-count" id="alertBadge" style="display:none"></span>
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            <span class="live-dot"></span> System Live
+
+        <div class="feature-card">
+          <i class="bi bi-file-earmark-text-fill"></i>
+          <h5>Crowd Reports</h5>
+          <p>Submit live updates from festival stewards.</p>
         </div>
-    </aside>
 
-    <!-- Main -->
-    <div class="main-content">
+        <div class="feature-card">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <h5>Active Alerts</h5>
+          <p>Detect overcrowding before safety issues occur.</p>
+        </div>
 
-        <!-- Topbar -->
-        <header class="topbar">
-            <button class="sidebar-toggle d-lg-none" id="sidebarToggle">
-                <i class="bi bi-list"></i>
-            </button>
-            <h5 class="topbar-title" id="pageTitle">Dashboard</h5>
-            <span class="topbar-clock" id="clock"></span>
-        </header>
-
-        <!-- DASHBOARD -->
-        <section id="section-dashboard" class="page-section active">
-
-            <!-- Hero Banner -->
-            <div class="hero-banner">
-                <div class="hero-left">
-                    <div class="hero-title"><i class="bi bi-music-note-beamed"></i> Festival Pulse</div>
-                    <div class="hero-sub">Live crowd monitoring — real-time area status</div>
-                </div>
-                <div class="hero-right">
-                    <span class="hero-live"><span class="live-dot"></span> Live</span>
-                    <span class="hero-date" id="heroDate"></span>
-                </div>
-            </div>
-
-            <!-- Metric Cards -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-icon green"><i class="bi bi-geo-alt-fill"></i></div>
-                    <div>
-                        <div class="metric-label">Total Areas</div>
-                        <div class="metric-value" id="m-areas">—</div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon blue"><i class="bi bi-file-earmark-text-fill"></i></div>
-                    <div>
-                        <div class="metric-label">Crowd Reports</div>
-                        <div class="metric-value" id="m-reports">—</div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div>
-                    <div>
-                        <div class="metric-label">Active Alerts</div>
-                        <div class="metric-value" id="m-alerts">—</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Charts Row -->
-            <div class="row g-4 mt-3">
-                <div class="col-lg-4">
-                    <div class="panel h-100">
-                        <div class="panel-header"><i class="bi bi-pie-chart-fill"></i> Crowd Level Distribution</div>
-                        <div class="panel-body" style="display:flex;justify-content:center;align-items:center;height:380px">
-                            <canvas id="crowdLevelChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="panel h-100">
-                        <div class="panel-header"><i class="bi bi-bar-chart-fill"></i> Reports per Area</div>
-                        <div class="panel-body" style="height:380px">
-                            <canvas id="reportsPerAreaChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- FESTIVAL AREAS -->
-        <section id="section-areas" class="page-section">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <div class="panel">
-                        <div class="panel-header"><i class="bi bi-plus-circle-fill"></i> New Area</div>
-                        <div class="panel-body">
-                            <form id="areaForm" novalidate>
-                                <div class="form-group">
-                                    <label>Area Name</label>
-                                    <input type="text" id="areaName" class="form-input" placeholder="e.g. Main Stage" required>
-                                    <div class="invalid-msg">Name is required.</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description / Location</label>
-                                    <textarea id="areaDesc" class="form-input" rows="3" placeholder="Location or details..." required></textarea>
-                                    <div class="invalid-msg">Description is required.</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Area Type</label>
-                                    <select id="areaType" class="form-input" required>
-                                        <option value="">Select type...</option>
-                                        <option value="STAGE">🎸 Stage</option>
-                                        <option value="FOOD">🍔 Food</option>
-                                        <option value="BAR">🍺 Bar</option>
-                                        <option value="MEDICAL">🏥 Medical</option>
-                                        <option value="ENTRANCE">🚪 Entrance</option>
-                                        <option value="TOILETS">🚻 Toilets</option>
-                                        <option value="OTHER">📍 Other</option>
-                                    </select>
-                                    <div class="invalid-msg">Please select a type.</div>
-                                </div>
-                                <button type="submit" class="btn-primary w-100" id="areaSubmitBtn">
-                                    <i class="bi bi-plus-circle"></i> Create Area
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="panel">
-                        <div class="panel-header"><i class="bi bi-map-fill"></i> All Festival Areas</div>
-                        <div class="panel-body">
-                            <div id="areasLoading" class="loading-state">
-                                <div class="spinner-border spinner-border-sm text-success"></div> Loading...
-                            </div>
-                            <div id="areasEmpty" class="empty-state d-none">No areas yet. Create one!</div>
-                            <div id="areasGrid" class="areas-grid d-none"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CROWD REPORTS -->
-        <section id="section-reports" class="page-section">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <div class="panel">
-                        <div class="panel-header"><i class="bi bi-send-fill"></i> Submit Report</div>
-                        <div class="panel-body">
-                            <form id="reportForm" novalidate>
-                                <div class="form-group">
-                                    <label>Festival Area</label>
-                                    <select id="reportArea" class="form-input" required>
-                                        <option value="">Select area...</option>
-                                    </select>
-                                    <div class="invalid-msg">Please select an area.</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Crowd Level</label>
-                                    <select id="crowdLevel" class="form-input" required>
-                                        <option value="">Select level...</option>
-                                        <option value="LOW">🟢 Low</option>
-                                        <option value="MEDIUM">🟡 Medium</option>
-                                        <option value="FULL">🔴 Full</option>
-                                    </select>
-                                    <div class="invalid-msg">Please select a crowd level.</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Note</label>
-                                    <textarea id="reportNote" class="form-input" rows="3" placeholder="Describe the situation..." required></textarea>
-                                    <div class="invalid-msg">Note is required.</div>
-                                </div>
-                                <button type="submit" class="btn-primary w-100" id="reportSubmitBtn">
-                                    <i class="bi bi-send"></i> Submit Report
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="panel">
-                        <div class="panel-header"><i class="bi bi-clock-history"></i> Recent Reports</div>
-                        <div class="panel-body p-0">
-                            <div id="reportsLoading" class="loading-state">
-                                <div class="spinner-border spinner-border-sm text-success"></div> Loading...
-                            </div>
-                            <div id="reportsEmpty" class="empty-state d-none">No reports submitted yet.</div>
-                            <table class="data-table d-none" id="reportsTable">
-                                <thead>
-                                <tr><th>Area</th><th>Level</th><th>Note</th><th>Time</th></tr>
-                                </thead>
-                                <tbody id="reportsBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ALERTS -->
-        <section id="section-alerts" class="page-section">
-            <div class="panel">
-                <div class="panel-header d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-exclamation-triangle-fill"></i> Active Alerts</span>
-                    <button class="btn-refresh" onclick="loadAlerts()">
-                        <i class="bi bi-arrow-clockwise"></i> Refresh
-                    </button>
-                </div>
-                <div class="panel-body">
-                    <div id="alertsLoading" class="loading-state">
-                        <div class="spinner-border spinner-border-sm text-success"></div> Loading...
-                    </div>
-                    <div id="alertsEmpty" class="empty-state d-none">
-                        <i class="bi bi-check-circle-fill text-success"></i> All clear — no active alerts.
-                    </div>
-                    <div id="alertsList" class="alerts-grid d-none"></div>
-                </div>
-            </div>
-        </section>
+      </div>
 
     </div>
-</div>
 
-<!-- Toasts -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
-    <div id="successToast" class="app-toast toast-success" role="alert">
-        <i class="bi bi-check-circle-fill"></i>
-        <span id="successMsg"></span>
-        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="toast"></button>
-    </div>
-    <div id="errorToast" class="app-toast toast-error" role="alert">
-        <i class="bi bi-x-circle-fill"></i>
-        <span id="errorMsg"></span>
-        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="toast"></button>
-    </div>
-</div>
+    <!-- VISUAL -->
+    <div class="hero-visual concert-visual">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="js/app.js?v=3"></script>
+      <div class="live-badge">
+        <span></span> LIVE
+      </div>
+
+      <div class="stage-lights">
+        <span class="light light-left"></span>
+        <span class="light light-right"></span>
+      </div>
+
+      <div class="music-note note-1">♪</div>
+      <div class="music-note note-2">♫</div>
+      <div class="music-note note-3">♪</div>
+
+      <div class="guitarist">
+        <div class="guitarist-head">😎</div>
+
+        <div class="guitarist-body">
+          <div class="guitar-neck"></div>
+          <div class="guitar"></div>
+          <div class="arm arm-left"></div>
+          <div class="arm arm-right"></div>
+          <div class="leg leg-left"></div>
+          <div class="leg leg-right"></div>
+          <i class="bi bi-music-note-beamed shirt-note"></i>
+        </div>
+      </div>
+
+      <div class="speaker speaker-left">
+        <span></span>
+      </div>
+
+      <div class="speaker speaker-right">
+        <span></span>
+      </div>
+
+      <div class="crowd-map concert-crowd">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="alert-floating concert-alert">
+        <i class="bi bi-bell-fill"></i>
+        Alert Generated!
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 </body>
 </html>

@@ -1,0 +1,760 @@
+
+:root {
+    --bg: #f8faf9;
+    --sidebar: #335765;
+
+    --green: #74A8A4;
+    --green-dark: #5f918d;
+
+    --blue: #B6D9E0;
+
+    --text: #24343d;
+    --muted: #6b7b83;
+
+    --border: #DBE2DC;
+
+    --orange: #7F543D;
+    --orange-light: rgba(127, 84, 61, 0.12);
+
+    --white: #ffffff;
+}
+
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background:
+            radial-gradient(circle at top right, rgba(182,217,224,0.65), transparent 25%),
+            linear-gradient(135deg, #f8faf9 0%, #eef4f2 55%, #dbe8e4 100%);
+    min-height: 100vh;
+    color: var(--text);
+}
+
+/* PAGE */
+
+.landing-page {
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+/* NAVBAR */
+
+.landing-navbar {
+    width: 100%;
+    max-width: 1300px;
+    margin: auto;
+    padding: 1.5rem 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 1.2rem;
+    font-weight: 800;
+
+    color: var(--sidebar);
+}
+
+.brand i {
+    font-size: 2rem;
+    color: var(--green);
+}
+
+/* HERO */
+
+.hero-section {
+    min-height: 85vh;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+
+    align-items: center;
+    gap: 4rem;
+}
+
+/* TEXT */
+
+.hero-badge {
+    display: inline-block;
+
+    background: rgba(116,168,164,0.15);
+    color: var(--green-dark);
+
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    margin-bottom: 1.5rem;
+}
+
+.hero-text h1 {
+    font-size: clamp(2.8rem, 5vw, 5.2rem);
+
+    line-height: 1.05;
+    font-weight: 900;
+
+    margin-bottom: 1.5rem;
+
+    color: var(--text);
+}
+
+.hero-text p {
+    font-size: 1.08rem;
+    line-height: 1.8;
+
+    color: var(--muted);
+
+    max-width: 650px;
+
+    margin-bottom: 2rem;
+}
+
+/* BUTTONS */
+
+.hero-actions {
+    margin-bottom: 3rem;
+}
+
+.btn-primary-custom,
+.btn-dashboard {
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.btn-primary-custom {
+    background: var(--green);
+
+    color: white;
+
+    padding: 0.9rem 1.5rem;
+
+    border-radius: 12px;
+
+    box-shadow: 0 12px 25px rgba(116,168,164,0.25);
+}
+
+.btn-primary-custom:hover {
+    background: var(--green-dark);
+
+    color: white;
+
+    transform: translateY(-3px);
+}
+
+.btn-dashboard {
+    background: rgba(116,168,164,0.15);
+
+    color: var(--sidebar);
+
+    padding: 0.7rem 1.2rem;
+
+    border-radius: 999px;
+}
+
+.btn-dashboard:hover {
+    background: var(--green);
+
+    color: white;
+}
+
+/* FEATURES */
+
+.feature-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 1rem;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.78);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.55);
+
+    border-radius: 22px;
+
+    padding: 1.4rem;
+
+    box-shadow: 0 12px 28px rgba(51,87,101,0.08);
+
+    transition: 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+}
+
+.feature-card i {
+    font-size: 1.5rem;
+
+    color: var(--green);
+
+    margin-bottom: 0.9rem;
+}
+
+.feature-card h5 {
+    font-weight: 800;
+
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    font-size: 0.92rem;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
+/* HERO VISUAL */
+
+.hero-visual {
+    position: relative;
+
+    height: 700px;
+
+    border-radius: 36px;
+
+    overflow: hidden;
+
+    box-shadow: 0 30px 70px rgba(51,87,101,0.22);
+}
+
+/* CONCERT HERO */
+
+.concert-visual {
+    background:
+            radial-gradient(circle at 20% 10%, rgba(255, 84, 200, 0.35), transparent 18%),
+            radial-gradient(circle at 80% 15%, rgba(88, 166, 255, 0.35), transparent 20%),
+            linear-gradient(180deg, #173447 0%, #213f4b 48%, #16313b 100%);
+}
+
+/* LIVE BADGE */
+
+.live-badge {
+    position: absolute;
+
+    top: 28px;
+    right: 32px;
+
+    z-index: 20;
+
+    background: rgba(255,255,255,0.12);
+
+    border: 3px solid #ff385c;
+
+    color: #ffffff;
+
+    padding: 0.45rem 0.8rem;
+
+    border-radius: 14px;
+
+    font-weight: 900;
+
+    font-size: 1.1rem;
+
+    box-shadow: 0 0 18px rgba(255,56,92,0.65);
+}
+
+.live-badge span {
+    display: inline-block;
+
+    width: 11px;
+    height: 11px;
+
+    background: #ff385c;
+
+    border-radius: 50%;
+
+    margin-right: 6px;
+
+    box-shadow: 0 0 10px #ff385c;
+}
+
+/* LIGHTS */
+
+.light {
+    position: absolute;
+
+    top: 0;
+
+    width: 150px;
+    height: 360px;
+
+    opacity: 0.75;
+
+    clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+
+    animation: lightMove 2.2s infinite alternate ease-in-out;
+}
+
+.light-left {
+    left: 45px;
+
+    background: linear-gradient(to bottom, rgba(255,75,220,0.85), transparent);
+
+    transform: rotate(-18deg);
+}
+
+.light-right {
+    right: 55px;
+
+    background: linear-gradient(to bottom, rgba(128,178,255,0.85), transparent);
+
+    transform: rotate(18deg);
+}
+
+@keyframes lightMove {
+    from {
+        transform: rotate(-18deg);
+    }
+
+    to {
+        transform: rotate(12deg);
+    }
+}
+
+/* MUSIC NOTES */
+
+.music-note {
+    position: absolute;
+
+    z-index: 15;
+
+    color: #55f3e7;
+
+    font-size: 3rem;
+
+    font-weight: 900;
+
+    animation: floatNote 2s infinite ease-in-out;
+}
+
+.note-1 {
+    top: 130px;
+    left: 150px;
+
+    color: #ff7adf;
+}
+
+.note-2 {
+    top: 155px;
+    right: 145px;
+}
+
+.note-3 {
+    top: 260px;
+    left: 105px;
+
+    color: #ffd54f;
+}
+
+@keyframes floatNote {
+    0%, 100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translateY(-18px) rotate(8deg);
+    }
+}
+
+/* GUITARIST */
+
+.guitarist {
+    position: absolute;
+
+    top: 115px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 230px;
+    height: 330px;
+
+    z-index: 18;
+
+    animation: rockDance 0.9s infinite ease-in-out;
+}
+
+@keyframes rockDance {
+    0%, 100% {
+        transform: translateX(-50%) rotate(-3deg) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(4deg) translateY(-12px);
+    }
+}
+
+.guitarist-head {
+    font-size: 5rem;
+
+    text-align: center;
+
+    line-height: 1;
+
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,0.35));
+}
+
+.guitarist-body {
+    position: relative;
+
+    width: 120px;
+    height: 150px;
+
+    margin: -5px auto 0;
+
+    background: #111827;
+
+    border-radius: 30px 30px 20px 20px;
+
+    box-shadow: 0 18px 28px rgba(0,0,0,0.32);
+}
+
+.shirt-note {
+    position: absolute;
+
+    top: 35px;
+    left: 42px;
+
+    color: #ffffff;
+
+    font-size: 2.1rem;
+}
+
+/* GUITAR */
+
+.guitar {
+    position: absolute;
+
+    width: 110px;
+    height: 62px;
+
+    right: -48px;
+    top: 65px;
+
+    background: #35c7bd;
+
+    border: 5px solid #ffffff;
+
+    border-radius: 55% 45% 55% 45%;
+
+    transform: rotate(-22deg);
+
+    z-index: 8;
+
+    box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+}
+
+.guitar::after {
+    content: "";
+
+    position: absolute;
+
+    width: 18px;
+    height: 18px;
+
+    background: #111827;
+
+    border-radius: 50%;
+
+    top: 18px;
+    left: 38px;
+}
+
+.guitar-neck {
+    position: absolute;
+
+    width: 115px;
+    height: 13px;
+
+    right: -128px;
+    top: 72px;
+
+    background: #d79b45;
+
+    border-radius: 999px;
+
+    transform: rotate(-22deg);
+
+    z-index: 7;
+}
+
+/* ARMS */
+
+.arm {
+    position: absolute;
+
+    width: 22px;
+    height: 85px;
+
+    background: #f4b183;
+
+    border-radius: 999px;
+
+    top: 25px;
+
+    z-index: 9;
+}
+
+.arm-left {
+    left: -22px;
+
+    transform: rotate(-35deg);
+}
+
+.arm-right {
+    right: -22px;
+
+    transform: rotate(35deg);
+}
+
+/* LEGS */
+
+.leg {
+    position: absolute;
+
+    width: 28px;
+    height: 105px;
+
+    background: #1f2937;
+
+    border-radius: 999px;
+
+    top: 135px;
+}
+
+.leg-left {
+    left: 24px;
+
+    transform: rotate(12deg);
+}
+
+.leg-right {
+    right: 18px;
+
+    transform: rotate(-22deg);
+}
+
+/* SPEAKERS */
+
+.speaker {
+    position: absolute;
+
+    bottom: 230px;
+
+    width: 85px;
+    height: 120px;
+
+    border-radius: 16px;
+
+    background: #102833;
+
+    border: 4px solid rgba(255,255,255,0.12);
+
+    z-index: 10;
+}
+
+.speaker-left {
+    left: 70px;
+}
+
+.speaker-right {
+    right: 70px;
+}
+
+.speaker span {
+    position: absolute;
+
+    width: 52px;
+    height: 52px;
+
+    background: #2b4b57;
+
+    border: 8px solid #7c4dff;
+
+    border-radius: 50%;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    box-shadow: 0 0 20px rgba(124,77,255,0.75);
+}
+
+/* CROWD */
+
+.crowd-map {
+    position: absolute;
+
+    left: 60px;
+    right: 60px;
+    bottom: 75px;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 22px;
+
+    z-index: 8;
+}
+
+.crowd-map span {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    animation: crowdBounce 1.3s infinite ease-in-out;
+}
+
+.crowd-map span:nth-child(3n) {
+    background: #ffd95a;
+
+    box-shadow:
+            0 0 0 10px rgba(255,217,90,0.18),
+            0 0 28px rgba(255,217,90,0.7);
+}
+
+.crowd-map span:nth-child(5n) {
+    background: #4ee7dc;
+
+    box-shadow:
+            0 0 0 10px rgba(78,231,220,0.16),
+            0 0 28px rgba(78,231,220,0.7);
+}
+
+.crowd-map span:nth-child(7n) {
+    background: #ff6f61;
+
+    box-shadow:
+            0 0 0 14px rgba(255,111,97,0.18),
+            0 0 34px rgba(255,111,97,0.8);
+}
+
+@keyframes crowdBounce {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.08);
+    }
+}
+
+/* ALERT */
+
+.alert-floating {
+    position: absolute;
+
+    right: 30px;
+    bottom: 30px;
+
+    background: white;
+
+    color: #e93b2f;
+
+    border-radius: 999px;
+
+    padding: 1rem 1.3rem;
+
+    font-weight: 800;
+
+    box-shadow: 0 14px 35px rgba(0,0,0,0.18);
+
+    z-index: 20;
+
+    animation: alertPop 1.5s infinite ease-in-out;
+}
+
+@keyframes alertPop {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 992px) {
+
+    .hero-section {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .hero-visual {
+        height: 580px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .landing-navbar {
+        padding: 1.2rem;
+    }
+
+    .hero-section {
+        padding: 0 1rem;
+    }
+
+    .hero-visual {
+        height: 500px;
+    }
+
+    .crowd-map {
+        left: 25px;
+        right: 25px;
+        gap: 14px;
+    }
+
+    .crowd-map span {
+        width: 28px;
+        height: 28px;
+    }
+
+    .guitarist {
+        transform: translateX(-50%) scale(0.78);
+    }
+
+    .speaker {
+        display: none;
+    }
+
+    .music-note {
+        font-size: 2rem;
+    }
+}
