@@ -2,6 +2,7 @@ package com.tus.festguard.model;
 
 import com.tus.festguard.enums.CrowdLevel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class CrowdReport {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "crowd_level", nullable = false)
+    @NotNull(message = "Crowd level is required")
     private CrowdLevel crowdLevel;
 
     private String note;

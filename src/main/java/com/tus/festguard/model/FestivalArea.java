@@ -1,6 +1,7 @@
 package com.tus.festguard.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class FestivalArea {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Area name is required")
     private String name;
 
     private String description;
