@@ -1,8 +1,14 @@
 const API = {
-    dashboard: "/api/dashboard",
-    areas: "/api/areas",
-    reports: "/api/reports",
-    alerts: "/api/alerts"
+    dashboard: "/api/dashboard/summary",
+    areas: "/api/festival-areas",
+    reports: "/api/crowd-reports/recent",
+    reportForArea: function (areaId) {
+        return `/api/crowd-reports/area/${areaId}`;
+    },
+    alerts: "/api/crowd-alerts/active",
+    resolveAlert: function (alertId) {
+        return `/api/crowd-alerts/${alertId}/resolve`;
+    }
 };
 
 $(document).ready(function () {
@@ -194,7 +200,7 @@ function submitReport() {
     $("#reportSubmitBtn").prop("disabled", true).text("Submitting...");
 
     $.ajax({
-        url: API.reports,
+        url: API.reportForArea(report.areaId),
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(report),
@@ -354,8 +360,8 @@ function alertCard(alert) {
 
 function resolveAlert(id) {
     $.ajax({
-        url: `${API.alerts}/${id}/resolve`,
-        method: "PUT",
+        url: API.resolveAlert(id),
+        method: "PATCH",
         success: function () {
             showSuccess("Alert resolved.");
             loadAlerts();
@@ -388,7 +394,7 @@ function loadDashboard() {
             $("#m-full").text(summary.fullAreas ?? 0);
         },
         error: function () {
-            // fallback if /api/dashboard is not ready yet
+            // fallback if /api/dashboard/summary is not ready yet
             loadDashboardFallback();
         }
     });
