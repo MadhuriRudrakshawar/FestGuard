@@ -1,0 +1,455 @@
+:root {
+    --bg: #f8faf9;
+    --sidebar: #335765;
+
+    --green: #74A8A4;
+    --green-dark: #5f918d;
+
+    --blue: #B6D9E0;
+
+    --text: #24343d;
+    --muted: #6b7b83;
+
+    --border: #DBE2DC;
+
+    --orange: #7F543D;
+    --orange-light: rgba(127, 84, 61, 0.12);
+
+    --white: #ffffff;
+}
+
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background:
+            radial-gradient(circle at top right, rgba(182,217,224,0.65), transparent 25%),
+            linear-gradient(135deg, #f8faf9 0%, #eef4f2 55%, #dbe8e4 100%);
+    min-height: 100vh;
+    color: var(--text);
+}
+
+/* PAGE */
+
+.landing-page {
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+/* NAVBAR */
+
+.landing-navbar {
+    width: 100%;
+    max-width: 1300px;
+
+    margin: auto;
+
+    padding: 1.5rem 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 1.2rem;
+    font-weight: 800;
+
+    color: var(--sidebar);
+}
+
+.brand i {
+    font-size: 2rem;
+    color: var(--green);
+}
+
+/* HERO */
+
+.hero-section {
+    min-height: 85vh;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+
+    align-items: center;
+    gap: 4rem;
+}
+
+/* TEXT */
+
+.hero-badge {
+    display: inline-block;
+
+    background: rgba(116,168,164,0.15);
+
+    color: var(--green-dark);
+
+    padding: 0.5rem 1rem;
+
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    margin-bottom: 1.5rem;
+}
+
+.hero-text h1 {
+    font-size: clamp(2.8rem, 5vw, 5.2rem);
+
+    line-height: 1.05;
+
+    font-weight: 900;
+
+    margin-bottom: 1.5rem;
+
+    color: var(--text);
+}
+
+.hero-text p {
+    font-size: 1.08rem;
+
+    line-height: 1.8;
+
+    color: var(--muted);
+
+    max-width: 650px;
+
+    margin-bottom: 2rem;
+}
+
+/* BUTTONS */
+
+.hero-actions {
+
+    margin-bottom: 3rem;
+}
+
+.btn-primary-custom,
+.btn-secondary-custom,
+.btn-dashboard {
+    text-decoration: none;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.btn-primary-custom {
+    background: var(--green);
+
+    color: white;
+
+    padding: 0.9rem 1.5rem;
+
+    border-radius: 10px;
+}
+
+.btn-primary-custom:hover {
+    background: var(--green-dark);
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+.btn-secondary-custom {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    color: var(--sidebar);
+
+    padding: 0.9rem 1.5rem;
+
+    border-radius: 10px;
+}
+
+.btn-secondary-custom:hover {
+    border-color: var(--green);
+    color: var(--green-dark);
+
+    transform: translateY(-2px);
+}
+
+.btn-dashboard {
+    background: rgba(116,168,164,0.15);
+
+    color: var(--sidebar);
+
+    padding: 0.7rem 1.2rem;
+
+    border-radius: 999px;
+}
+
+.btn-dashboard:hover {
+    background: var(--green);
+    color: white;
+}
+
+/* FEATURES */
+
+.feature-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 1rem;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.75);
+
+    backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255,255,255,0.55);
+
+    border-radius: 20px;
+
+    padding: 1.4rem;
+
+    box-shadow: 0 10px 25px rgba(51,87,101,0.08);
+}
+
+.feature-card i {
+    font-size: 1.4rem;
+
+    color: var(--green);
+
+    margin-bottom: 0.9rem;
+}
+
+.feature-card h5 {
+    font-weight: 800;
+
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    font-size: 0.92rem;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
+/* VISUAL */
+
+.hero-visual {
+    position: relative;
+
+    height: 650px;
+
+    border-radius: 32px;
+
+    overflow: hidden;
+
+    background:
+            linear-gradient(180deg, #335765 0%, #2b4b57 100%);
+
+    box-shadow: 0 30px 70px rgba(51,87,101,0.22);
+}
+
+/* CARD */
+
+.stage-card {
+    position: absolute;
+
+    top: 60px;
+    left: 60px;
+    right: 60px;
+
+    background: rgba(255,255,255,0.94);
+
+    border-radius: 28px;
+
+    padding: 2.2rem;
+
+    text-align: center;
+
+    z-index: 3;
+}
+
+.stage-icon {
+    width: 90px;
+    height: 90px;
+
+    margin: auto auto 1rem;
+
+    border-radius: 22px;
+
+    background: rgba(116,168,164,0.18);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-icon i {
+    font-size: 2.7rem;
+
+    color: var(--green);
+}
+
+.stage-card h3 {
+    font-weight: 900;
+
+    margin-bottom: 1rem;
+}
+
+.status-full {
+    display: inline-block;
+
+    background: rgba(185,107,91,0.16);
+
+    color: #9a5144;
+
+    padding: 0.55rem 1rem;
+
+    border-radius: 999px;
+
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+/* CROWD */
+
+.crowd-map {
+    position: absolute;
+
+    left: 60px;
+    right: 60px;
+    bottom: 90px;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 22px;
+}
+
+.crowd-map span {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: var(--blue);
+
+    box-shadow: 0 0 0 10px rgba(182,217,224,0.12);
+}
+
+/* ALERT */
+
+.alert-floating {
+    position: absolute;
+
+    right: 30px;
+    bottom: 30px;
+
+    background: white;
+
+    color: var(--orange);
+
+    border-radius: 999px;
+
+    padding: 1rem 1.3rem;
+
+    font-weight: 800;
+
+    box-shadow: 0 14px 35px rgba(0,0,0,0.18);
+
+    z-index: 4;
+}
+
+.pulse-ring {
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(116,168,164,0.3);
+
+    right: -40px;
+    top: -40px;
+
+    animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 992px) {
+
+    .hero-section {
+        grid-template-columns: 1fr;
+
+        gap: 2rem;
+    }
+
+    .hero-visual {
+        height: 500px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .landing-navbar {
+        padding: 1.2rem;
+    }
+
+    .hero-section {
+        padding: 0 1rem;
+    }
+
+    .hero-visual {
+        height: 420px;
+    }
+
+    .stage-card {
+        left: 25px;
+        right: 25px;
+        top: 25px;
+    }
+
+    .crowd-map {
+        left: 25px;
+        right: 25px;
+        gap: 14px;
+    }
+
+    .crowd-map span {
+        width: 28px;
+        height: 28px;
+    }
+}
