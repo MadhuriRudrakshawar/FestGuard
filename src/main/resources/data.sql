@@ -34,7 +34,7 @@ INSERT INTO crowd_report (id, area_id, crowd_level, note, submitted_at) VALUES
 (12, 1, 'MEDIUM', 'Main Stage crowd easing after set change', '2026-05-07 12:20:00');
 
 INSERT INTO crowd_alert (id, area_id, message, status, created_at) VALUES
-(1, 1, 'Area ''Main Stage'' is FULL', 'RESOLVED', '2026-05-07 10:35:30'),
+(1, 1, 'Area ''Main Stage'' is FULL', 'ACTIVE', '2026-05-07 10:35:30'),
 (2, 5, 'Area ''Acoustic Tent'' is FULL', 'ACTIVE', '2026-05-07 11:00:30'),
 (3, 3, 'Area ''Craft Beer Bar'' is FULL', 'ACTIVE', '2026-05-07 11:45:30'),
 (4, 2, 'Area ''Food Village'' is FULL', 'ACTIVE', '2026-05-07 12:00:30');
