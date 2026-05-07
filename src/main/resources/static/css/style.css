@@ -621,6 +621,42 @@ select.form-input option {
     background: var(--red);
 }
 
+.area-card {
+    position: relative;
+    padding-right: 3rem;
+}
+
+.area-card-header {
+    display: block;
+}
+
+.btn-icon-danger {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(127, 84, 61, 0.12);
+    color: #7F543D;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.btn-icon-danger:hover {
+    background: #7F543D;
+    color: #ffffff;
+}
+
 /* Mobile */
 @media (max-width: 991px) {
     .sidebar {
