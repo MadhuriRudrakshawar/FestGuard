@@ -1,10 +1,17 @@
 const API = {
     dashboard: "/api/dashboard/summary",
     areas: "/api/festival-areas",
-    reportsRecent: "/api/crowd-reports/recent",
-    reportsSubmit: "/api/crowd-reports/area",
+    area: function (areaId) {
+        return `/api/festival-areas/${areaId}`;
+    },
+    reports: "/api/crowd-reports/recent",
+    reportForArea: function (areaId) {
+        return `/api/crowd-reports/area/${areaId}`;
+    },
     alerts: "/api/crowd-alerts/active",
-    alertsResolve: "/api/crowd-alerts"
+    resolveAlert: function (alertId) {
+        return `/api/crowd-alerts/${alertId}/resolve`;
+    }
 };
 
 $(document).ready(function () {
@@ -14,12 +21,6 @@ $(document).ready(function () {
     setupMobileSidebar();
 
     loadAll();
-
-    setInterval(function () {
-        loadDashboard();
-        loadReports();
-        loadAlerts();
-    }, 10000);
 });
 
 function loadAll() {
@@ -157,7 +158,12 @@ function renderAreas(areas) {
     areas.forEach(function (area) {
         grid.append(`
             <div class="area-card">
-                <div class="area-card-name">${escapeHtml(area.name)}</div>
+                <div class="area-card-header">
+                    <div class="area-card-name">${escapeHtml(area.name)}</div>
+                    <button class="btn-icon-danger" type="button" title="Delete area" onclick="deleteArea(${area.id})">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
                 <div class="area-card-desc">${escapeHtml(area.description || area.location || "")}</div>
                 <span class="type-badge">${escapeHtml(area.areaType || area.type || "OTHER")}</span>
             </div>
@@ -165,6 +171,27 @@ function renderAreas(areas) {
     });
 
     grid.removeClass("d-none");
+}
+
+function deleteArea(id) {
+    if (!confirm("Delete this festival area and its reports/alerts?")) {
+        return;
+    }
+
+    $.ajax({
+        url: API.area(id),
+        method: "DELETE",
+        success: function () {
+            showSuccess("Festival area deleted.");
+            loadAreas();
+            loadReports();
+            loadAlerts();
+            loadDashboard();
+        },
+        error: function (xhr) {
+            showError(getErrorMessage(xhr, "Could not delete area."));
+        }
+    });
 }
 
 function populateAreaDropdown(areas) {
@@ -196,10 +223,10 @@ function submitReport() {
     $("#reportSubmitBtn").prop("disabled", true).text("Submitting...");
 
     $.ajax({
-        url: `${API.reportsSubmit}/${report.areaId}`,
+        url: API.reportForArea(report.areaId),
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ crowdLevel: report.crowdLevel, note: report.note }),
+        data: JSON.stringify(report),
         success: function () {
             showSuccess("Crowd report submitted.");
             $("#reportForm")[0].reset();
@@ -220,7 +247,7 @@ function loadReports() {
     setReportsLoading(true);
 
     $.ajax({
-        url: API.reportsRecent,
+        url: API.reports,
         method: "GET",
         success: function (reports) {
             renderReports(reports);
@@ -266,10 +293,14 @@ function renderReports(reports) {
 }
 
 function reportRow(report) {
-    const areaName = report.area ? report.area.name : "Unknown Area";
-    const level = report.crowdLevel || "UNKNOWN";
+    const areaName =
+        report.areaName ||
+        report.festivalAreaName ||
+        (report.area ? report.area.name : "Unknown Area");
+
+    const level = report.crowdLevel || report.level || "UNKNOWN";
     const note = report.note || "";
-    const time = formatTime(report.submittedAt);
+    const time = formatTime(report.timeSubmitted || report.submittedAt || report.createdAt);
 
     return `
         <tr>
@@ -325,9 +356,13 @@ function renderAlerts(alerts) {
 }
 
 function alertCard(alert) {
-    const areaName = alert.area ? alert.area.name : "Unknown Area";
-    const message = alert.message || "Area is full.";
-    const time = formatTime(alert.createdAt);
+    const areaName =
+        alert.areaName ||
+        alert.festivalAreaName ||
+        (alert.area ? alert.area.name : "Unknown Area");
+
+    const message = alert.alertMessage || alert.message || "Area is full.";
+    const time = formatTime(alert.timeCreated || alert.createdAt);
 
     return `
         <div class="alert-card alert-full">
@@ -348,7 +383,7 @@ function alertCard(alert) {
 
 function resolveAlert(id) {
     $.ajax({
-        url: `${API.alertsResolve}/${id}/resolve`,
+        url: API.resolveAlert(id),
         method: "PATCH",
         success: function () {
             showSuccess("Alert resolved.");
@@ -379,9 +414,10 @@ function loadDashboard() {
             $("#m-areas").text(summary.totalAreas ?? 0);
             $("#m-reports").text(summary.totalReports ?? 0);
             $("#m-alerts").text(summary.activeAlerts ?? 0);
+            $("#m-full").text(summary.fullAreas ?? 0);
         },
         error: function () {
-            // fallback if /api/dashboard is not ready yet
+            // fallback if /api/dashboard/summary is not ready yet
             loadDashboardFallback();
         }
     });
@@ -390,16 +426,25 @@ function loadDashboard() {
 function loadDashboardFallback() {
     $.when(
         $.get(API.areas),
-        $.get(API.reportsRecent),
+        $.get(API.reports),
         $.get(API.alerts)
     ).done(function (areasRes, reportsRes, alertsRes) {
         const areas = areasRes[0] || [];
         const reports = reportsRes[0] || [];
         const alerts = alertsRes[0] || [];
 
+        const fullAreas = new Set();
+
+        reports.forEach(function (r) {
+            if ((r.crowdLevel || r.level) === "FULL") {
+                fullAreas.add(r.areaId || r.festivalAreaId || (r.area ? r.area.id : ""));
+            }
+        });
+
         $("#m-areas").text(areas.length);
         $("#m-reports").text(reports.length);
         $("#m-alerts").text(alerts.length);
+        $("#m-full").text(fullAreas.size);
     });
 }
 

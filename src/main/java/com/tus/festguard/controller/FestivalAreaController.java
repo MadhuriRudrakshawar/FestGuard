@@ -26,5 +26,10 @@ public class FestivalAreaController {
     public List<FestivalArea> getAll() {
         return festivalAreaService.getAll();
     }
-}
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        festivalAreaService.delete(id);
+    }
+}
