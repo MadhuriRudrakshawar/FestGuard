@@ -133,6 +133,28 @@ class RestTemplateIntegrationTests {
     }
 
     @Test
+    void eachFullReport_createsAlertCardEvenForSameArea() {
+        FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Main Stage", "Primary stage", "STAGE"));
+
+        CrowdReport firstRequest = new CrowdReport();
+        firstRequest.setCrowdLevel(CrowdLevel.FULL);
+        firstRequest.setNote("Front barrier is full");
+
+        CrowdReport secondRequest = new CrowdReport();
+        secondRequest.setCrowdLevel(CrowdLevel.FULL);
+        secondRequest.setNote("Side entrance is full too");
+
+        restTemplate.postForEntity(url("/api/crowd-reports/area/" + area.getId()), firstRequest, CrowdReport.class);
+        restTemplate.postForEntity(url("/api/crowd-reports/area/" + area.getId()), secondRequest, CrowdReport.class);
+
+        ResponseEntity<CrowdAlert[]> response = restTemplate.getForEntity(
+                url("/api/crowd-alerts/active"), CrowdAlert[].class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).hasSize(2);
+    }
+
+    @Test
     void resolveAlert_returns200AndResolvedStatus() {
         FestivalArea area = festivalAreaRepository.save(new FestivalArea(null, "Craft Beer Bar", "Bar area", "BAR"));
 
