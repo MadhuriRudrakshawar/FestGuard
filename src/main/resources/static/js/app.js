@@ -18,12 +18,6 @@ $(document).ready(function () {
     setupMobileSidebar();
 
     loadAll();
-
-    setInterval(function () {
-        loadDashboard();
-        loadReports();
-        loadAlerts();
-    }, 10000);
 });
 
 function loadAll() {
